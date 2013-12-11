@@ -1,0 +1,3 @@
+#for recovery assert
+ro.product.device=P175A20
+ro.build.product=v970
