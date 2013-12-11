@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:icon="@drawable/btn_fm_louder" android:id="@id/fm_switch_earphone_spearker" android:title="@string/sound_mode" android:showAsAction="always" style="@android:style/Widget.Holo.ActionButton.Overflow" />
+    <item android:icon="@drawable/btn_fm_list" android:id="@id/fm_channel_list" android:title="@string/favorite_manager" android:showAsAction="always" style="@android:style/Widget.Holo.ActionButton.Overflow" />
+    <item android:icon="@drawable/btn_fm_overflow" android:id="@id/fm_menu" android:title="@string/more" android:showAsAction="always" style="@android:style/Widget.Holo.ActionButton.Overflow" />
+</menu>

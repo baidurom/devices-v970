@@ -1,24 +1,6 @@
 # Makefile Reference
 # Please use this file as the project Makefile reference
 
-##############################################################################
-# Only for baidu, otherwise do not set USER
-#-----------------------------------------------------------------------------
-USER := baidu
-
-##############################################################################
-# This value defines the base source branch, only use for baidu server build.
-# when open this outside, delete this config
-# Support values: rom-mtk, baidu-4.0
-#-----------------------------------------------------------------------------
-BAIDU_BASE_BRANCH := rom-mtk
-
-##############################################################################
-# This value defines which overlay should be choose, only use for baidu internal.
-# Support values: rom-mtk, baidu-4.0
-# when your product is mtk, you can choose rom-mtk, otherwise set it to baidu-4.0
-#-----------------------------------------------------------------------------
-BAIDU_FRAMEWORK_OVERLAY_TYPE := rom-mtk
 
 ##############################################################################
 # This value defines which base this project should choose, only for baidu internal.
@@ -45,20 +27,6 @@ DALVIK_VM_BUILD := 27
 # you can use mtk/qualcomm/sony
 #-----------------------------------------------------------------------------
 PLATFORM := mtk
-
-##############################################################################
-# you can custom boot image and recovery image name
-#-----------------------------------------------------------------------------
-# BOOT_IMG := bootname
-# RECOVERY_IMG := recoveryname
-
-##############################################################################
-# use for newproject, not unpack boot.img to BOOT, or not unpack recovery.img to RECOVERY
-# Support Values:
-# false, not unpack
-#-----------------------------------------------------------------------------
-# PRJ_UNPACK_BOOT_IMG := false
-# PRJ_UNPACK_RECOVERY_IMG := false
 
 ##############################################################################
 # customize weather use prebuilt image or pack from BOOT/RECOVERY directory
@@ -170,3 +138,4 @@ remove_property += \
 
 
 include $(PORT_BUILD)/main.mk
+include $(PORT_BUILD)/autopatch.mk
