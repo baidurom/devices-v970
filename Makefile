@@ -3,18 +3,6 @@
 
 
 ##############################################################################
-# This value defines which base this project should choose, only for baidu internal.
-# Support values: S710, JRD77SS, YINS, YIGN
-#-----------------------------------------------------------------------------
-BAIDU_BASE_DEVICE := S710
-
-##############################################################################
-# This value define to trigger server to build timely and daily
-# if you want to enable server build, set BAIDU_SERVER_BUILD := true
-# ----------------------------------------------------------------------------
-# BAIDU_SERVER_BUILD_ENABLE := true
-
-##############################################################################
 # Default DALVIK_VM_BUILD setting is 27
 # android 4.0: 27
 # android 4.1: 28
@@ -22,21 +10,6 @@ BAIDU_BASE_DEVICE := S710
 #-----------------------------------------------------------------------------
 DALVIK_VM_BUILD := 27
 
-##############################################################################
-# This value will control the method of pack or unpack image and so on
-# you can use mtk/qualcomm/sony
-#-----------------------------------------------------------------------------
-PLATFORM := mtk
-
-##############################################################################
-# customize weather use prebuilt image or pack from BOOT/RECOVERY directory
-# Support Values:
-# true, use prebuilt boot.img/recovery.img
-# flase, pack boot.img/recovery.img from vendor/BOOT / vendor/RECOVERY
-# NULL, none boot.img/recovery.img
-#-----------------------------------------------------------------------------
-PREBUILT_BOOT_IMG := false
-PREBUILT_RECOVERY_IMG := flase
 
 ##############################################################################
 # Directorys which you want to remove in vendor directory
