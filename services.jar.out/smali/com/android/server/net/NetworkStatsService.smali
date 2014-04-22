@@ -161,6 +161,8 @@
 
 .field private mPollReceiver:Landroid/content/BroadcastReceiver;
 
+.field private mQbReceiver:Landroid/content/BroadcastReceiver;
+
 .field private mRemovedReceiver:Landroid/content/BroadcastReceiver;
 
 .field private final mSettings:Lcom/android/server/net/NetworkStatsService$NetworkStatsSettings;
@@ -326,6 +328,15 @@
     invoke-direct {v1, v2, v3, v4}, Landroid/net/NetworkStats;-><init>(JI)V
 
     iput-object v1, p0, Lcom/android/server/net/NetworkStatsService;->mOperations:Landroid/net/NetworkStats;
+
+    .line 384
+    new-instance v1, Lcom/android/server/net/NetworkStatsService$QuickbootBroadcastReceiver;
+
+    const/4 v2, 0x0
+
+    invoke-direct {v1, p0, v2}, Lcom/android/server/net/NetworkStatsService$QuickbootBroadcastReceiver;-><init>(Lcom/android/server/net/NetworkStatsService;Lcom/android/server/net/NetworkStatsService$1;)V
+
+    iput-object v1, p0, Lcom/android/server/net/NetworkStatsService;->mQbReceiver:Landroid/content/BroadcastReceiver;
 
     .line 770
     new-instance v1, Lcom/android/server/net/NetworkStatsService$1;
@@ -4293,6 +4304,35 @@
     iput-object v5, v0, Lcom/android/server/net/NetworkStatsService;->mLastPollOperationsSnapshot:Landroid/net/NetworkStats;
 
     .line 1241
+    return-void
+.end method
+
+.method private qbShutdownLocked()V
+    .locals 1
+
+    .prologue
+    .line 375
+    iget-boolean v0, p0, Lcom/android/server/net/NetworkStatsService;->mNetworkStatsLoaded:Z
+
+    if-eqz v0, :cond_0
+
+    .line 376
+    invoke-direct {p0}, Lcom/android/server/net/NetworkStatsService;->writeNetworkDevStatsLocked()V
+
+    .line 377
+    invoke-direct {p0}, Lcom/android/server/net/NetworkStatsService;->writeNetworkXtStatsLocked()V
+
+    .line 379
+    :cond_0
+    iget-boolean v0, p0, Lcom/android/server/net/NetworkStatsService;->mUidStatsLoaded:Z
+
+    if-eqz v0, :cond_1
+
+    .line 380
+    invoke-direct {p0}, Lcom/android/server/net/NetworkStatsService;->writeUidStatsLocked()V
+
+    .line 382
+    :cond_1
     return-void
 .end method
 

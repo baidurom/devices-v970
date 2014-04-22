@@ -59,6 +59,13 @@
     invoke-virtual {v0, v1, v1, v1, v1}, Lcom/android/internal/widget/PopupLayout;->setPadding(IIII)V
 
     .line 33
+    iget-object v0, p0, Landroid/webkit/MagnifierSelectionPopupWindowView;->mContainer:Landroid/view/ViewGroup;
+
+    check-cast v0, Lcom/android/internal/widget/PopupLayout;
+
+    invoke-virtual {v0, v1}, Lcom/android/internal/widget/PopupLayout;->setShowArrow(Z)V
+
+    .line 34
     iget-object v0, p0, Landroid/webkit/MagnifierSelectionPopupWindowView;->mWebView:Landroid/webkit/WebView;
 
     invoke-virtual {v0}, Landroid/webkit/WebView;->getContext()Landroid/content/Context;

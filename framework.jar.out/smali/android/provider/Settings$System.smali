@@ -45,6 +45,8 @@
 
 .field public static final APPEND_FOR_LAST_AUDIBLE:Ljava/lang/String; = "_last_audible"
 
+.field public static final AUTO_BRIGHTNESS_COE:Ljava/lang/String; = "auto_brightness_coe"
+
 .field public static final AUTO_TIME:Ljava/lang/String; = "auto_time"
 
 .field public static final AUTO_TIME_GPS:Ljava/lang/String; = "auto_time_gps"
@@ -956,8 +958,8 @@
 
     sput-object v0, Landroid/provider/Settings$System;->DEFAULT_ALARM_ALERT_URI:Landroid/net/Uri;
 
-    .line 2364
-    const/16 v0, 0x3b
+    .line 2443
+    const/16 v0, 0x3c
 
     new-array v0, v0, [Ljava/lang/String;
 
@@ -1302,6 +1304,12 @@
     const/16 v1, 0x3a
 
     const-string/jumbo v2, "pointer_speed"
+
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x3b
+
+    const-string v2, "auto_brightness_coe"
 
     aput-object v2, v0, v1
 

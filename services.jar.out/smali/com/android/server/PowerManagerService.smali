@@ -44,6 +44,8 @@
 
 .field static final DEBUG_SCREEN_ON:Z = false
 
+.field private static final DEFAULT_AUTOMATIC_BRIGHTNESS_COE:I = 0x64
+
 .field private static final DEFAULT_SCREEN_OFF_TIMEOUT:I = 0x3a98
 
 .field private static final FEATURE_ALIGN_BKL_ENABLED:Z = true
@@ -75,6 +77,8 @@
 .field private static final LONG_DIM_TIME:I = 0x1b58
 
 .field private static final LONG_KEYLIGHT_DELAY:I = 0x1770
+
+.field private static final MAXIMUM_SCREEN_BRIGHTNESS:I = 0xff
 
 .field private static final MEDIUM_KEYLIGHT_DELAY:I = 0x3a98
 
@@ -133,6 +137,8 @@
 .field private mAutoBrightnessLevels:[I
 
 .field private mAutoBrightnessTask:Ljava/lang/Runnable;
+
+.field private mAutomaticBrightnessCoe:I
 
 .field private mBatteryService:Lcom/android/server/BatteryService;
 
@@ -893,6 +899,22 @@
     return p1
 .end method
 
+.method static synthetic access$1516(Lcom/android/server/PowerManagerService;F)F
+    .locals 1
+    .parameter "x0"
+    .parameter "x1"
+
+    .prologue
+    .line 86
+    iget v0, p0, Lcom/android/server/PowerManagerService;->mLightSensorValue:F
+
+    add-float/2addr v0, p1
+
+    iput v0, p0, Lcom/android/server/PowerManagerService;->mLightSensorValue:F
+
+    return v0
+.end method
+
 .method static synthetic access$1600(Lcom/android/server/PowerManagerService;)I
     .locals 1
     .parameter "x0"
@@ -1196,6 +1218,43 @@
 
     return p1
 .end method
+
+
+.method static synthetic access$3400(Lcom/android/server/PowerManagerService;)I
+    .locals 1
+    .parameter "x0"
+
+    .prologue
+    .line 86
+    iget v0, p0, Lcom/android/server/PowerManagerService;->mAutomaticBrightnessCoe:I
+
+    return v0
+.end method
+
+.method static synthetic access$3402(Lcom/android/server/PowerManagerService;I)I
+    .locals 0
+    .parameter "x0"
+    .parameter "x1"
+
+    .prologue
+    .line 86
+    iput p1, p0, Lcom/android/server/PowerManagerService;->mAutomaticBrightnessCoe:I
+
+    return p1
+.end method
+
+.method static synthetic access$3500(Lcom/android/server/PowerManagerService;I)V
+    .locals 0
+    .parameter "x0"
+    .parameter "x1"
+
+    .prologue
+    .line 86
+    invoke-direct {p0, p1}, Lcom/android/server/PowerManagerService;->lightSensorChangedLocked(I)V
+
+    return-void
+.end method
+
 
 .method static synthetic access$400(Lcom/android/server/PowerManagerService;Landroid/os/IBinder;IZ)V
     .locals 0
@@ -3866,7 +3925,8 @@
     .parameter "value"
 
     .prologue
-    .line 2839
+    const/16 v6, 0xff
+    
     const-string v3, "PowerManagerService"
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -3949,6 +4009,25 @@
 
     .line 2864
     .local v2, lcdValue:I
+    iget v3, p0, Lcom/android/server/PowerManagerService;->mAutomaticBrightnessCoe:I
+
+    mul-int/2addr v3, v2
+
+    div-int/lit8 v2, v3, 0x64
+
+    .line 2902
+    invoke-static {v2, v6}, Ljava/lang/Math;->min(II)I
+
+    move-result v2
+
+    .line 2903
+    iget v3, p0, Lcom/android/server/PowerManagerService;->mScreenBrightnessDim:I
+
+    invoke-static {v2, v3}, Ljava/lang/Math;->max(II)I
+
+    move-result v2
+
+    .line 2905
     iget-object v3, p0, Lcom/android/server/PowerManagerService;->mButtonBacklightValues:[I
 
     invoke-direct {p0, p1, v3}, Lcom/android/server/PowerManagerService;->getAutoBrightnessValue(I[I)I
@@ -4169,15 +4248,13 @@
 
     const/16 v4, 0x3c
 
-    const/16 v5, 0xff
+    iget-object v5, p0, Lcom/android/server/PowerManagerService;->mScreenBrightness:Lcom/android/server/PowerManagerService$BrightnessState;
 
-    iget-object v6, p0, Lcom/android/server/PowerManagerService;->mScreenBrightness:Lcom/android/server/PowerManagerService$BrightnessState;
+    iget v5, v5, Lcom/android/server/PowerManagerService$BrightnessState;->curValue:F
 
-    iget v6, v6, Lcom/android/server/PowerManagerService$BrightnessState;->curValue:F
+    float-to-int v5, v5
 
-    float-to-int v6, v6
-
-    invoke-virtual {v3, v2, v4, v5, v6}, Lcom/android/server/PowerManagerService$BrightnessState;->setTargetLocked(IIII)V
+    invoke-virtual {v3, v2, v4, v6, v5}, Lcom/android/server/PowerManagerService$BrightnessState;->setTargetLocked(IIII)V
 
     goto :goto_3
 .end method
@@ -12550,7 +12627,7 @@
 .end method
 
 .method initInThread()V
-    .locals 13
+    .locals 14
 
     .prologue
     const/high16 v5, 0x4000
@@ -12758,7 +12835,9 @@
     .local v0, resolver:Landroid/content/ContentResolver;
     sget-object v1, Landroid/provider/Settings$System;->CONTENT_URI:Landroid/net/Uri;
 
-    const-string v3, "(name=?) or (name=?) or (name=?) or (name=?) or (name=?) or (name=?)"
+    const-string v3, "(name=?) or (name=?) or (name=?) or (name=?) or (name=?) or (name=?) or (name=?)"
+
+    const/4 v4, 0x7
 
     new-array v4, v4, [Ljava/lang/String;
 
@@ -12793,6 +12872,12 @@
     const-string v11, "transition_animation_scale"
 
     aput-object v11, v4, v5
+    
+    const/4 v13, 0x6
+    
+    const-string v5, "auto_brightness_coe"
+
+    aput-object v5, v4, v13
 
     move-object v5, v2
 

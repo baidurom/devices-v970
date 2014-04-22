@@ -3498,7 +3498,7 @@
 
     move-result v4
 
-    if-le p1, v4, :cond_1
+    if-lt p1, v4, :cond_1
 
     .line 1491
     :cond_0

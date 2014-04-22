@@ -1,7 +1,6 @@
 # Makefile Reference
 # Please use this file as the project Makefile reference
 
-
 ##############################################################################
 # Default DALVIK_VM_BUILD setting is 27
 # android 4.0: 27
@@ -12,6 +11,16 @@ DALVIK_VM_BUILD := 27
 
 
 ##############################################################################
+# customize weather use prebuilt image or pack from BOOT/RECOVERY directory
+# Support Values:
+# vendor_modify_images := boot recovery
+# boot/recovery, pack boot.img/recovery.img from vendor/BOOT / vendor/RECOVERY
+# NULL, check boot.img/recovery.img in project root directory, if it exists,
+# use a prebuilt boot.img/recovery.img, if not, nothing to do
+#-----------------------------------------------------------------------------
+vendor_modify_images := boot recovery
+
+##############################################################################
 # Directorys which you want to remove in vendor directory
 #-----------------------------------------------------------------------------
 vendor_remove_dirs := app appbackup
@@ -19,7 +28,7 @@ vendor_remove_dirs := app appbackup
 ##############################################################################
 # Files which you want to remove in vendor directory
 #-----------------------------------------------------------------------------
-# vendor_remove_files := bin/zchgd
+vendor_remove_files := etc/permissions/android.hardware.wifi.direct.xml
 
 ##############################################################################
 # Vendor apks you want to use
@@ -81,7 +90,7 @@ baidu_saved_files := lib/libwebcore.so lib/libsurfaceflinger.so
 # baidu_modify_apps: which base the baidu's apk
 # just override the res, append *.smali.part
 #-----------------------------------------------------------------------------
-baidu_modify_apps := SystemUI
+baidu_modify_apps := SystemUI BaiduCamera
 
 ##############################################################################
 # baidu_modify_jars: which base the baidu's jar
@@ -99,7 +108,10 @@ override_property += \
     ro.build.version.incremental=20120828.093925
 
 override_property += \
-    ro.rom.mt.font=1
+    ro.rom.mt.font=1 \
+    persist.sys.prevent_wakeup=false \
+    ro.hwui.layer_cache_size=10 \
+    ro.hwui.texture_cache_size=14 \
 
 ##############################################################################
 # override_property: this property will override the build.prop
